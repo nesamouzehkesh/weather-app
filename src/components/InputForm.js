@@ -4,33 +4,38 @@ import Input from '../elements/Input'
 
 const FormItem = Form.Item;
 
-const InputForm = ({ getWeather }) => (
+const InputForm = ({ getWeather, weatherVisible }) => (
+    <div> {
+        !weatherVisible &&
+        <Form layout="inline" onSubmit={getWeather}>
+            <FormItem>
+                <Input
+                    placeholder="city"
+                    placement="topLeft"
+                    size="large"
+                    id="city"
+                />
+            </FormItem>
 
-    <Form layout="inline" onSubmit={getWeather}>
-        <FormItem>
-            <Input
-                placeholder="city"
-                placement="topLeft"
-                size="large"
-                id="city"
-            />
-        </FormItem>
+            <FormItem>
 
-        <FormItem>
+                <Input
+                    placeholder="country"
+                    size="large"
+                    id="country"
+                />
+            </FormItem>
+            <FormItem>
+                <Button shape="circle" icon="search" size="large" htmlType="submit" />
+                {/*<Button shape="circle" loading /> change to this when you click on submit
+        means we need a loading state...*/}
 
-            <Input
-                placeholder="country"
-                size="large"
-                id="country"
-            />
-        </FormItem>
-        <FormItem>
-            <Button shape="circle" icon="search" size="large" htmlType="submit" />
-            {/*<Button shape="circle" loading /> change to this when you click on submit
-            means we need a loading state...*/}
+            </FormItem>
+        </Form>
+    }
 
-        </FormItem>
-    </Form>
+    </div>
+
 
 );
 

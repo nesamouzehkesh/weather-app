@@ -18,30 +18,58 @@ class App extends Component {
       country: undefined,
       humidity: undefined,
       description: undefined,
-      error: undefined
+      error: "Please enter both city and country",
+      loading: false,
+      weatherVisible: false
     }
   }
 
-  async getWeather(e) {
+  getWeather = async (e) => {
     e.preventDefault();
     const city = e.target.elements.city.value;
     const country = e.target.elements.country.value;
+    this.setState((prevState, props) => {
+      return ({ loading: !prevState.loading })
+    }) // set the loading to true when you hit the search button 
     const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`)
     const data = await api_call.json();
-    console.log(data)
+    if (city && country) {
+      this.setState((prevState, props) => {
+        return {
+          loading: !prevState.loading, // switch it back to false
+          weatherVisible: !prevState.weatherVisible, // weather details is now visible
+          temperature: data.main.temp,
+          humidity: data.main.humidity,
+          city: data.name,
+          country: data.sys.country,
+          description: data.weather[0].description,
+        }
+      })
+    }
+  }
+
+  backHandler = () => {
+    console.log("a");
+    this.setState((prevState, props) => {
+      return {
+        weatherVisible: !prevState.weatherVisible
+      }
+    })
   }
   render() {
-    const { temperature, humidity, city, country, description, error } = this.state;
+    const { temperature, humidity, city, country, description, error, weatherVisible } = this.state;
     return (
       <Layout>
         <Header style={{ background: '#f0f2f5' }}> </Header>
-        <Layout style={{ background: '#91C065', marginLeft: '100px', marginRight: '100px' }} hasSider={true}>
-          <Sider width={400} style={{ background: 'url("https://us.123rf.com/450wm/belchonock/belchonock1701/belchonock170100701/68451195-water-drops-on-glass-with-treble-clef-drawing-.jpg?ver=6")', padding: '20px' }}>
+        <Layout style={{ background: 'rgb(144, 135, 32)', marginLeft: '100px', marginRight: '100px' }} hasSider={true}>
+          <Sider width={350} style={{ background: 'url("https://user-images.githubusercontent.com/13462129/41895410-4d18b80a-7965-11e8-9f7a-ed7aa0d5e71b.jpg")', padding: '20px' }}>
             <Title />
           </Sider>
           <Content style={{ padding: '40px' }}>
-            <InputForm getWeather={this.getWeather} />
+            <InputForm getWeather={this.getWeather} weatherVisible={weatherVisible} />
             <Weather
+              backHandler={this.backHandler}
+              weatherVisible={weatherVisible}
               temperature={temperature}
               humidty={humidity}
               city={city}
