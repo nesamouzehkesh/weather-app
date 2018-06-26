@@ -1,31 +1,21 @@
 import React from "react";
 
 const Weather = props => (
-    <div>
-        {
-            <p > Location:
+    <div style={{ marginTop: '30px' }}>
+        <p > Location:
 	 		<span > </span>
-            </p>
-        }
-        {
-            <p > Temperature:
-	 		<span >	</span>
-            </p>
-        }
-        {
-            <p > Humidity:
-	 		<span >  </span>
-            </p>
-        }
-        {
-            <p > Conditions:
+        </p>
+        <p > Temperature:
 	 		<span > </span>
-            </p>
-        }
-        {
-            <p ></p>
-        }
+        </p>
+        <p > Humidity:
+	 		<span > </span>
+        </p>
+        <p > Conditions:
+	 		<span > </span>
+        </p>
     </div>
+
 );
 
 export default Weather;
