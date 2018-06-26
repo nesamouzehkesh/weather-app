@@ -33,6 +33,10 @@ class App extends Component {
     }) // set the loading to true when you hit the search button 
     const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`)
     const data = await api_call.json();
+    /**
+     * decrease the opacity of the Sider's background
+     * siderOpacityChange();
+     */
     if (city && country) {
       this.setState((prevState, props) => {
         return {
@@ -48,8 +52,15 @@ class App extends Component {
     }
   }
 
+  getStyle = (weatherVisible) => {
+    if (weatherVisible) {
+      return { height: '350px', fontSize: '80px', background: 'url("https://user-images.githubusercontent.com/13462129/41908482-7b35ea9c-7987-11e8-9966-48897323b276.jpg")', padding: '20px' }
+    }
+
+    return { height: '350px', background: 'url("https://user-images.githubusercontent.com/13462129/41895410-4d18b80a-7965-11e8-9f7a-ed7aa0d5e71b.jpg")', padding: '20px' }
+  }
+
   backHandler = () => {
-    console.log("a");
     this.setState((prevState, props) => {
       return {
         weatherVisible: !prevState.weatherVisible
@@ -60,10 +71,14 @@ class App extends Component {
     const { temperature, humidity, city, country, description, error, weatherVisible } = this.state;
     return (
       <Layout>
-        <Header style={{ background: '#f0f2f5' }}> </Header>
+        <Header style={{ background: '#f0f2f5', marginLeft: '50px' }}> <Title />
+        </Header>
         <Layout style={{ background: 'rgb(144, 135, 32)', marginLeft: '100px', marginRight: '100px' }} hasSider={true}>
-          <Sider width={350} style={{ background: 'url("https://user-images.githubusercontent.com/13462129/41895410-4d18b80a-7965-11e8-9f7a-ed7aa0d5e71b.jpg")', padding: '20px' }}>
-            <Title />
+          <Sider
+            width={350}
+            style={this.getStyle(weatherVisible)}>
+            {weatherVisible && temperature}&#8451;
+
           </Sider>
           <Content style={{ padding: '40px' }}>
             <InputForm getWeather={this.getWeather} weatherVisible={weatherVisible} />
@@ -71,7 +86,7 @@ class App extends Component {
               backHandler={this.backHandler}
               weatherVisible={weatherVisible}
               temperature={temperature}
-              humidty={humidity}
+              humidity={humidity}
               city={city}
               country={country}
               description={description}
@@ -82,7 +97,7 @@ class App extends Component {
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2016 Created by Ant UED
       </Footer>
-      </Layout>
+      </Layout >
     );
   }
 }
