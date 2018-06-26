@@ -6,10 +6,32 @@ import Weather from './components/Weather';
 import InputForm from './components/InputForm';
 
 const { Sider, Content, Footer, Header } = Layout;
-
+const API_KEY = "260c12130ccbb1e64787d52fd9671600";
 
 class App extends Component {
+  constructor(...args) {
+    super(...args);
+
+    this.state = {
+      temperature: undefined,
+      city: undefined,
+      country: undefined,
+      humidity: undefined,
+      description: undefined,
+      error: undefined
+    }
+  }
+
+  async getWeather(e) {
+    e.preventDefault();
+    const city = e.target.elements.city.value;
+    const country = e.target.elements.country.value;
+    const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`)
+    const data = await api_call.json();
+    console.log(data)
+  }
   render() {
+    const { temperature, humidity, city, country, description, error } = this.state;
     return (
       <Layout>
         <Header style={{ background: '#f0f2f5' }}> </Header>
@@ -18,8 +40,15 @@ class App extends Component {
             <Title />
           </Sider>
           <Content style={{ padding: '40px' }}>
-            <InputForm />
-            <Weather />
+            <InputForm getWeather={this.getWeather} />
+            <Weather
+              temperature={temperature}
+              humidty={humidity}
+              city={city}
+              country={country}
+              description={description}
+              error={error}
+            />
           </Content>
         </Layout>
         <Footer style={{ textAlign: 'center' }}>

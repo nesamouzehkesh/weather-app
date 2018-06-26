@@ -4,15 +4,15 @@ import Input from '../elements/Input'
 
 const FormItem = Form.Item;
 
-const InputForm = () => (
+const InputForm = ({ getWeather }) => (
 
-    <Form layout="inline" onSubmit={() => { }}>
+    <Form layout="inline" onSubmit={getWeather}>
         <FormItem>
             <Input
                 placeholder="city"
-                onChange={() => { }}
                 placement="topLeft"
                 size="large"
+                id="city"
             />
         </FormItem>
 
@@ -20,12 +20,12 @@ const InputForm = () => (
 
             <Input
                 placeholder="country"
-                onChange={() => { }}
                 size="large"
+                id="country"
             />
         </FormItem>
         <FormItem>
-            <Button shape="circle" icon="search" size="large" />
+            <Button shape="circle" icon="search" size="large" htmlType="submit" />
             {/*<Button shape="circle" loading /> change to this when you click on submit
             means we need a loading state...*/}
 
