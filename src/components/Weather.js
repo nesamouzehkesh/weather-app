@@ -5,7 +5,8 @@ const Weather = ({ backHandler, weatherVisible, city, country, windSpeed, temper
     <div >
         {weatherVisible && <div style={{ display: 'flex', flexDirection: 'column', color: '#fbd491' }}>
             {
-                city && country && <div>
+                city && country &&
+                <div>
                     <span style={{ fontWeight: 'bold', fontFamily: 'junction-light', fontSize: '40px' }}>
                         {city}, {country}
                     </span>

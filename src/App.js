@@ -4,9 +4,10 @@ import './App.css';
 import Title from './components/Title';
 import Weather from './components/Weather';
 import InputForm from './components/InputForm';
+import Weekly from './components/Weekly';
 
 const { Sider, Content, Footer, Header } = Layout;
-const API_KEY = "260c12130ccbb1e64787d52fd9671600";
+const API_KEY = "260c12130ccbb1e64787d52fd9671600"; // this will be deleted later, and I will use the second key for all purposes
 const WEEK_API_KEY = "eaefa571f2944356854d9bc874ade000";
 
 class App extends Component {
@@ -55,8 +56,12 @@ class App extends Component {
   getWeeklyWeather = async () => {
     const { city, country } = this.state;
     this.setState((prevState, props) => {
-      return ({ loading: !prevState.loading }) // loading is now true
-    }) // set the loading to true when you hit to see the forecast
+      return (
+        {
+          loading: !prevState.loading, // set the loading to true when you hit to see the forecast
+          weatherVisible: !prevState.weatherVisible //day weather info will clear up to show the week info
+        })
+    })
     const api_call = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`)
     const data = await api_call.json();
     const weekWeather = data.data.slice(0, 7);
@@ -92,7 +97,7 @@ class App extends Component {
     })
   }
   render() {
-    const { windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
+    const { weekWeather, windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
     return (
       <Layout>
         <Header style={{ background: '#f0f2f5', marginLeft: '50px' }}> <Title />
@@ -118,6 +123,7 @@ class App extends Component {
               description={description}
               getWeeklyWeather={this.getWeeklyWeather}
             />
+            <Weekly weekWeather={weekWeather} weatherVisible={weatherVisible} />
           </Content>
         </Layout>
         <Footer style={{ textAlign: 'center' }}>
