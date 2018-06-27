@@ -7,6 +7,7 @@ import InputForm from './components/InputForm';
 
 const { Sider, Content, Footer, Header } = Layout;
 const API_KEY = "260c12130ccbb1e64787d52fd9671600";
+const WEEK_API_KEY = "eaefa571f2944356854d9bc874ade000";
 
 class App extends Component {
   constructor(...args) {
@@ -18,6 +19,7 @@ class App extends Component {
       country: undefined,
       humidity: undefined,
       description: undefined,
+      windSpeed: undefined,
       error: "Please enter both city and country",
       loading: false,
       weatherVisible: false
@@ -33,10 +35,7 @@ class App extends Component {
     }) // set the loading to true when you hit the search button 
     const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`)
     const data = await api_call.json();
-    /**
-     * decrease the opacity of the Sider's background
-     * siderOpacityChange();
-     */
+    console.log(data)
     if (city && country) {
       this.setState((prevState, props) => {
         return {
@@ -44,12 +43,24 @@ class App extends Component {
           weatherVisible: !prevState.weatherVisible, // weather details is now visible
           temperature: data.main.temp,
           humidity: data.main.humidity,
+          windSpeed: data.wind.speed,
           city: data.name,
           country: data.sys.country,
           description: data.weather[0].description,
         }
       })
     }
+  }
+  getWeeklyWeather = async () => {
+    const { city, country } = this.state;
+    const cnt = 7; // day count (a week)
+    this.setState((prevState, props) => {
+      return ({ loading: !prevState.loading })
+    }) // set the loading to true when you hit to see the forecast
+    const api_call = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`)
+    const data = await api_call.json();
+    console.log(data)
+
   }
 
   getStyle = (weatherVisible) => {
@@ -68,7 +79,7 @@ class App extends Component {
     })
   }
   render() {
-    const { temperature, humidity, city, country, description, error, weatherVisible } = this.state;
+    const { windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
     return (
       <Layout>
         <Header style={{ background: '#f0f2f5', marginLeft: '50px' }}> <Title />
@@ -76,7 +87,8 @@ class App extends Component {
         <Layout style={{ background: 'rgb(144, 135, 32)', marginLeft: '100px', marginRight: '100px' }} hasSider={true}>
           <Sider
             width={350}
-            style={this.getStyle(weatherVisible)}>
+            style={this.getStyle(weatherVisible)}
+          >
             {weatherVisible && temperature}&#8451;
 
           </Sider>
@@ -87,10 +99,11 @@ class App extends Component {
               weatherVisible={weatherVisible}
               temperature={temperature}
               humidity={humidity}
+              windSpeed={windSpeed}
               city={city}
               country={country}
               description={description}
-              error={error}
+              getWeeklyWeather={this.getWeeklyWeather}
             />
           </Content>
         </Layout>
