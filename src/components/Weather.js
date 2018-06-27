@@ -1,26 +1,13 @@
 import React from "react";
 import { Icon } from 'antd';
+import City from './City';
+import WeatherInfo from './WeatherInfo';
 
 const Weather = ({ backHandler, weatherVisible, city, country, windSpeed, temperature, humidity, description, getWeeklyWeather }) => (
     <div >
         {weatherVisible && <div style={{ display: 'flex', flexDirection: 'column', color: '#fbd491' }}>
-            {
-                city && country &&
-                <div>
-                    <span style={{ fontWeight: 'bold', fontFamily: 'junction-light', fontSize: '40px' }}>
-                        {city}, {country}
-                    </span>
-                </div>
-            }
-            {
-                humidity && <p > Humidity:<span > {humidity} </span></p>
-            }
-            {
-                windSpeed && <p > Wind Speed:<span > {windSpeed} </span></p>
-            }
-            {
-                description && <p > Conditions:<span> {description} </span></p>
-            }
+            <City city={city} country={country} />
+            <WeatherInfo humidity={humidity} description={description} windSpeed={windSpeed} />
             <div>
                 <span><a onClick={() => backHandler()}> <Icon type="caret-left" style={{ marginTop: '60px', fontSize: 40, color: '#faf714' }} /></a></span>
                 <span style={{ marginLeft: '30px', fontSize: '17px', marginRight: '6px' }}>
