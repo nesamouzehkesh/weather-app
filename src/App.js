@@ -34,16 +34,16 @@ class App extends Component {
     const city = e.target.elements.city.value;
     const country = e.target.elements.country.value;
     this.setState((prevState, props) => {
-      return ({ loading: !prevState.loading })
-    }) // set the loading to true when you hit the search button 
+      return ({ loading: true })
+    })
     const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`)
     const data = await api_call.json();
     console.log(data)
     if (city && country) {
       this.setState((prevState, props) => {
         return {
-          loading: !prevState.loading, // switch it back to false
-          weatherVisible: !prevState.weatherVisible, // weather details is now visible
+          loading: false,
+          weatherVisible: true,
           temperature: data.main.temp,
           humidity: data.main.humidity,
           windSpeed: data.wind.speed,
@@ -59,9 +59,9 @@ class App extends Component {
     this.setState((prevState, props) => {
       return (
         {
-          loading: !prevState.loading, // set the loading to true when you hit to see the forecast
-          weatherVisible: !prevState.weatherVisible, //day weather info will clear up to show the week info
-          showWeekly: !prevState.showWeekly // sets it to true
+          loading: true,
+          weatherVisible: false,
+          showWeekly: true
         })
     })
     const api_call = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`)
@@ -76,7 +76,7 @@ class App extends Component {
     if (city && country) {
       this.setState((prevState, props) => {
         return {
-          loading: !prevState.loading, // switch it back to false
+          loading: false,
           weekWeather: filteredWeekWeather,
         }
       })
@@ -94,7 +94,8 @@ class App extends Component {
   backHandler = () => {
     this.setState((prevState, props) => {
       return {
-        weatherVisible: !prevState.weatherVisible
+        weatherVisible: false,
+        showWeekly: false
       }
     })
   }
@@ -117,6 +118,7 @@ class App extends Component {
             <Weather
               backHandler={this.backHandler}
               weatherVisible={weatherVisible}
+              showWeekly={showWeekly}
               temperature={temperature}
               humidity={humidity}
               windSpeed={windSpeed}
