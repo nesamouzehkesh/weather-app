@@ -24,6 +24,7 @@ class App extends Component {
       error: "Please enter both city and country",
       loading: false,
       weatherVisible: false,
+      showWeekly: false,
       weekWeather: []
     }
   }
@@ -59,7 +60,8 @@ class App extends Component {
       return (
         {
           loading: !prevState.loading, // set the loading to true when you hit to see the forecast
-          weatherVisible: !prevState.weatherVisible //day weather info will clear up to show the week info
+          weatherVisible: !prevState.weatherVisible, //day weather info will clear up to show the week info
+          showWeekly: !prevState.showWeekly // sets it to true
         })
     })
     const api_call = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`)
@@ -75,7 +77,7 @@ class App extends Component {
       this.setState((prevState, props) => {
         return {
           loading: !prevState.loading, // switch it back to false
-          weekWeather: filteredWeekWeather
+          weekWeather: filteredWeekWeather,
         }
       })
     }
@@ -97,7 +99,7 @@ class App extends Component {
     })
   }
   render() {
-    const { weekWeather, windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
+    const { showWeekly, weekWeather, windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
     return (
       <Layout>
         <Header style={{ background: '#f0f2f5', marginLeft: '50px' }}> <Title />
@@ -111,7 +113,7 @@ class App extends Component {
 
           </Sider>
           <Content style={{ padding: '40px' }}>
-            <InputForm getWeather={this.getWeather} weatherVisible={weatherVisible} />
+            <InputForm showWeekly={showWeekly} getWeather={this.getWeather} weatherVisible={weatherVisible} />
             <Weather
               backHandler={this.backHandler}
               weatherVisible={weatherVisible}
@@ -123,7 +125,7 @@ class App extends Component {
               description={description}
               getWeeklyWeather={this.getWeeklyWeather}
             />
-            <Weekly weekWeather={weekWeather} weatherVisible={weatherVisible} />
+            <Weekly weekWeather={weekWeather} weatherVisible={weatherVisible} showWeekly={showWeekly} />
           </Content>
         </Layout>
         <Footer style={{ textAlign: 'center' }}>

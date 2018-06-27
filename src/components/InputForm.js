@@ -4,11 +4,11 @@ import Input from '../elements/Input'
 
 const FormItem = Form.Item;
 
-const InputForm = ({ getWeather, weatherVisible }) => (
+const InputForm = ({ showWeekly, getWeather, weatherVisible }) => (
     <div>
         {
-            !weatherVisible &&
-            <Form layout="inline" onSubmit={getWeather}>
+            !weatherVisible && !showWeekly &&
+            < Form layout="inline" onSubmit={getWeather}>
                 <FormItem>
                     <Input
                         placeholder="city"
@@ -35,7 +35,7 @@ const InputForm = ({ getWeather, weatherVisible }) => (
             </Form>
         }
 
-    </div>
+    </div >
 
 
 );
