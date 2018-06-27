@@ -60,13 +60,14 @@ class App extends Component {
     this.setState((prevState, props) => {
       return (
         {
-          loading: true,
+          loading: (prevState.weekWeather.length === 0) ? true : false,
           weatherVisible: false,
-          showWeekly: true
+          showWeekly: true,
         })
     })
     const api_call = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`)
     const data = await api_call.json();
+    console.log(data)
     const weekWeather = data.data.slice(0, 7);
     const filteredWeekWeather = weekWeather.map(day => ({
       max: day.app_max_temp,
@@ -96,12 +97,13 @@ class App extends Component {
     this.setState((prevState, props) => {
       return {
         weatherVisible: false,
-        showWeekly: false
+        showWeekly: false,
+        weekWeather: []
       }
     })
   }
   render() {
-    const { showWeekly, weekWeather, windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
+    const { loading, showWeekly, weekWeather, windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
     return (
       <Layout style={{ border: '1px solid', margin: '10px' }}>
         <Header style={{ background: '#f0f2f5', marginLeft: '50px' }}>
@@ -128,8 +130,9 @@ class App extends Component {
               country={country}
               description={description}
               getWeeklyWeather={this.getWeeklyWeather}
+              weekWeather={weekWeather}
+              loading={loading}
             />
-            <Weekly weekWeather={weekWeather} weatherVisible={weatherVisible} showWeekly={showWeekly} />
           </Content>
         </Layout>
         <Footer style={{ display: 'flex' }}>
