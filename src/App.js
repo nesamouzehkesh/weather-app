@@ -22,7 +22,8 @@ class App extends Component {
       windSpeed: undefined,
       error: "Please enter both city and country",
       loading: false,
-      weatherVisible: false
+      weatherVisible: false,
+      weekWeather: []
     }
   }
 
@@ -53,14 +54,26 @@ class App extends Component {
   }
   getWeeklyWeather = async () => {
     const { city, country } = this.state;
-    const cnt = 7; // day count (a week)
     this.setState((prevState, props) => {
-      return ({ loading: !prevState.loading })
+      return ({ loading: !prevState.loading }) // loading is now true
     }) // set the loading to true when you hit to see the forecast
     const api_call = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`)
     const data = await api_call.json();
-    console.log(data)
-
+    const weekWeather = data.data.slice(0, 7);
+    const filteredWeekWeather = weekWeather.map(day => ({
+      max: day.app_max_temp,
+      min: day.app_min_temp,
+      date: day.datetime,
+      precipitation: day.precip
+    }))
+    if (city && country) {
+      this.setState((prevState, props) => {
+        return {
+          loading: !prevState.loading, // switch it back to false
+          weekWeather: filteredWeekWeather
+        }
+      })
+    }
   }
 
   getStyle = (weatherVisible) => {
