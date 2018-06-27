@@ -5,6 +5,7 @@ import Title from './components/Title';
 import Weather from './components/Weather';
 import InputForm from './components/InputForm';
 import Weekly from './components/Weekly';
+import Back from './components/Back';
 
 const { Sider, Content, Footer, Header } = Layout;
 const API_KEY = "260c12130ccbb1e64787d52fd9671600"; // this will be deleted later, and I will use the second key for all purposes
@@ -102,8 +103,9 @@ class App extends Component {
   render() {
     const { showWeekly, weekWeather, windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
     return (
-      <Layout>
-        <Header style={{ background: '#f0f2f5', marginLeft: '50px' }}> <Title />
+      <Layout style={{ border: '1px solid', margin: '10px' }}>
+        <Header style={{ background: '#f0f2f5', marginLeft: '50px' }}>
+          <Title />
         </Header>
         <Layout style={{ background: 'rgb(144, 135, 32)', marginLeft: '100px', marginRight: '100px' }} hasSider={true}>
           <Sider
@@ -130,9 +132,10 @@ class App extends Component {
             <Weekly weekWeather={weekWeather} weatherVisible={weatherVisible} showWeekly={showWeekly} />
           </Content>
         </Layout>
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2016 Created by Ant UED
-      </Footer>
+        <Footer style={{ display: 'flex' }}>
+          <Back backHandler={this.backHandler} />
+          <span style={{ position: 'absolute', left: '50%' }}>Ant Design ©2016 Created by Ant UED </span>
+        </Footer>
       </Layout >
     );
   }

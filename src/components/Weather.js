@@ -5,12 +5,11 @@ import WeatherInfo from './WeatherInfo';
 import Forecasts from './Forecasts';
 
 const Weather = ({ showWeekly, backHandler, weatherVisible, city, country, windSpeed, temperature, humidity, description, getWeeklyWeather }) => (
-    <div >
+    <div>
         <div style={{ display: 'flex', flexDirection: 'column', color: '#fbd491' }}>
             {(weatherVisible || showWeekly) && <City city={city} country={country} />}
             {weatherVisible && <WeatherInfo humidity={humidity} description={description} windSpeed={windSpeed} />}
             <div>
-                <span><a onClick={() => backHandler()}> <Icon type="caret-left" style={{ marginTop: '60px', fontSize: 40, color: '#faf714' }} /></a></span>
                 {weatherVisible && <Forecasts getWeeklyWeather={getWeeklyWeather} />}
             </div>
         </div>
