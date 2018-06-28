@@ -19,6 +19,7 @@ class App extends Component {
       temperature: undefined,
       city: undefined,
       country: undefined,
+      date: undefined,
       humidity: undefined,
       description: undefined,
       windSpeed: undefined,
@@ -26,6 +27,7 @@ class App extends Component {
       loading: false,
       weatherVisible: false,
       showWeekly: false,
+      showSpecific: false,
       weekWeather: []
     };
   }
@@ -41,7 +43,6 @@ class App extends Component {
       `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
     );
     const data = await api_call.json();
-    console.log(data);
     if (city && country) {
       this.setState((prevState, props) => {
         return {
@@ -70,6 +71,7 @@ class App extends Component {
       `https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`
     );
     const data = await api_call.json();
+    console.log(data);
     const weekWeather = data.data.slice(0, 7);
     const filteredWeekWeather = weekWeather.map(day => ({
       max: day.app_max_temp,
@@ -85,6 +87,13 @@ class App extends Component {
         };
       });
     }
+  };
+
+  getSpecificWeather = async e => {
+    e.preventDefault();
+    const date = e.target.value;
+    // const { city, country } = this.state;
+    console.log(date);
   };
 
   getStyle = weatherVisible => {
@@ -154,6 +163,7 @@ class App extends Component {
               country={country}
               description={description}
               getWeeklyWeather={this.getWeeklyWeather}
+              getSpecificWeather={this.getSpecificWeather}
               weekWeather={weekWeather}
               loading={loading}
             />

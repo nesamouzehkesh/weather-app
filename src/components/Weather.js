@@ -18,7 +18,8 @@ const Weather = ({
   temperature,
   humidity,
   description,
-  getWeeklyWeather
+  getWeeklyWeather,
+  getSpecificWeather
 }) => (
   <div>
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -33,7 +34,10 @@ const Weather = ({
       {loading && <Loading loading={loading} />}
       {showWeekly && !weatherVisible && <Weekly weekWeather={weekWeather} />}
       {(weatherVisible || showWeekly) && (
-        <Forecasts getWeeklyWeather={getWeeklyWeather} />
+        <Forecasts
+          getWeeklyWeather={getWeeklyWeather}
+          getSpecificWeather={getSpecificWeather}
+        />
       )}
     </div>
   </div>

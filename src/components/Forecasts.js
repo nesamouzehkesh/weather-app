@@ -1,7 +1,7 @@
 import React from "react";
-import { Icon } from "antd";
+import { Icon, DatePicker } from "antd";
 
-const Forecasts = ({ getWeeklyWeather }) => (
+const Forecasts = ({ getWeeklyWeather, getSpecificWeather }) => (
   <div style={{ marginTop: "20px" }}>
     <span style={{ color: "#676767" }}>
       <span
@@ -16,13 +16,18 @@ const Forecasts = ({ getWeeklyWeather }) => (
         Weekly Forcast
       </span>
       <span style={{ fontSize: "17px" }}>
-        <a>
-          <Icon
-            type="dot-chart"
-            style={{ marginRight: "2px", fontSize: 25, color: "#bd7e38" }}
-          />
-        </a>
-        Specific Date
+        <Icon
+          type="dot-chart"
+          style={{ marginRight: "2px", fontSize: 25, color: "#bd7e38" }}
+        />
+        Specific Date :
+        <DatePicker
+          size="small"
+          placeholder="select the date"
+          onChange={() => {
+            getSpecificWeather();
+          }}
+        />
       </span>
     </span>
   </div>
