@@ -1,4 +1,4 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 .App {
   text-align: center;
 }
@@ -24,18 +24,21 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-
 @font-face {
-  font-family: 'junction-light';
-  src:url('fonts/junction-light.eot');
-  src:url('fonts/junction-light.eot?#iefix') format('embedded-opentype'),
-    url('fonts/junction-light.woff') format('woff'),
-    url('fonts/junction-light.ttf') format('truetype'),
-    url('fonts/junction-light.svg#font-icon') format('svg');
+  font-family: "junction-light";
+  src: url("fonts/junction-light.eot");
+  src: url("fonts/junction-light.eot?#iefix") format("embedded-opentype"),
+    url("fonts/junction-light.woff") format("woff"),
+    url("fonts/junction-light.ttf") format("truetype"),
+    url("fonts/junction-light.svg#font-icon") format("svg");
   font-weight: normal;
   font-style: normal;
 }

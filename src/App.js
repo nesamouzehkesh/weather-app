@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Row, Col, Card, Layout, Divider } from 'antd';
-import './App.css';
-import Title from './components/Title';
-import Weather from './components/Weather';
-import InputForm from './components/InputForm';
-import Weekly from './components/Weekly';
-import Back from './components/Back';
+import React, { Component } from "react";
+import { Row, Col, Card, Layout, Divider } from "antd";
+import "./App.css";
+import Title from "./components/Title";
+import Weather from "./components/Weather";
+import InputForm from "./components/InputForm";
+import Weekly from "./components/Weekly";
+import Back from "./components/Back";
 
 const { Sider, Content, Footer, Header } = Layout;
 const API_KEY = "260c12130ccbb1e64787d52fd9671600"; // this will be deleted later, and I will use the second key for all purposes
@@ -27,19 +27,21 @@ class App extends Component {
       weatherVisible: false,
       showWeekly: false,
       weekWeather: []
-    }
+    };
   }
 
-  getWeather = async (e) => {
+  getWeather = async e => {
     e.preventDefault();
     const city = e.target.elements.city.value;
     const country = e.target.elements.country.value;
     this.setState((prevState, props) => {
-      return ({ loading: true })
-    })
-    const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`)
+      return { loading: true };
+    });
+    const api_call = await fetch(
+      `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
+    );
     const data = await api_call.json();
-    console.log(data)
+    console.log(data);
     if (city && country) {
       this.setState((prevState, props) => {
         return {
@@ -50,48 +52,50 @@ class App extends Component {
           windSpeed: data.wind.speed,
           city: data.name,
           country: data.sys.country,
-          description: data.weather[0].description,
-        }
-      })
+          description: data.weather[0].description
+        };
+      });
     }
-  }
+  };
   getWeeklyWeather = async () => {
     const { city, country } = this.state;
     this.setState((prevState, props) => {
-      return (
-        {
-          loading: (prevState.weekWeather.length === 0) ? true : false,
-          weatherVisible: false,
-          showWeekly: true,
-        })
-    })
-    const api_call = await fetch(`https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`)
+      return {
+        loading: prevState.weekWeather.length === 0 ? true : false,
+        weatherVisible: false,
+        showWeekly: true
+      };
+    });
+    const api_call = await fetch(
+      `https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`
+    );
     const data = await api_call.json();
-    console.log(data)
     const weekWeather = data.data.slice(0, 7);
     const filteredWeekWeather = weekWeather.map(day => ({
       max: day.app_max_temp,
       min: day.app_min_temp,
       date: day.datetime,
       precipitation: day.precip
-    }))
+    }));
     if (city && country) {
       this.setState((prevState, props) => {
         return {
           loading: false,
-          weekWeather: filteredWeekWeather,
-        }
-      })
+          weekWeather: filteredWeekWeather
+        };
+      });
     }
-  }
+  };
 
-  getStyle = (weatherVisible) => {
-    if (weatherVisible) {
-      return { height: '350px', fontSize: '80px', background: 'url("https://user-images.githubusercontent.com/13462129/41908482-7b35ea9c-7987-11e8-9966-48897323b276.jpg")', padding: '20px' }
-    }
-
-    return { height: '350px', background: 'url("https://user-images.githubusercontent.com/13462129/41895410-4d18b80a-7965-11e8-9f7a-ed7aa0d5e71b.jpg")', padding: '20px' }
-  }
+  getStyle = weatherVisible => {
+    return {
+      height: "350px",
+      fontSize: "80px",
+      background:
+        'url("https://user-images.githubusercontent.com/13462129/42004779-af8ac2f8-7ab4-11e8-83f1-5d242521207a.jpg")',
+      padding: "20px"
+    };
+  };
 
   backHandler = () => {
     this.setState((prevState, props) => {
@@ -99,26 +103,46 @@ class App extends Component {
         weatherVisible: false,
         showWeekly: false,
         weekWeather: []
-      }
-    })
-  }
+      };
+    });
+  };
   render() {
-    const { loading, showWeekly, weekWeather, windSpeed, temperature, humidity, city, country, description, error, weatherVisible } = this.state;
+    const {
+      loading,
+      showWeekly,
+      weekWeather,
+      windSpeed,
+      temperature,
+      humidity,
+      city,
+      country,
+      description,
+      error,
+      weatherVisible
+    } = this.state;
     return (
-      <Layout style={{ border: '1px solid', margin: '10px' }}>
-        <Header style={{ background: '#f0f2f5', marginLeft: '50px' }}>
+      <Layout style={{ border: "1px solid", margin: "10px" }}>
+        <Header style={{ background: "#f0f2f5", marginLeft: "50px" }}>
           <Title />
         </Header>
-        <Layout style={{ background: 'rgb(144, 135, 32)', marginLeft: '100px', marginRight: '100px' }} hasSider={true}>
-          <Sider
-            width={350}
-            style={this.getStyle(weatherVisible)}
-          >
-            {weatherVisible && temperature}&#8451;
-
+        <Layout
+          style={{
+            background:
+              'url("https://user-images.githubusercontent.com/13462129/42004873-33cec618-7ab5-11e8-850a-da6dac1f6407.jpg")',
+            marginLeft: "100px",
+            marginRight: "100px"
+          }}
+          hasSider={true}
+        >
+          <Sider width={350} style={this.getStyle()}>
+            <span>{(weatherVisible || showWeekly) && temperature}&#8451;</span>
           </Sider>
-          <Content style={{ padding: '40px' }}>
-            <InputForm showWeekly={showWeekly} getWeather={this.getWeather} weatherVisible={weatherVisible} />
+          <Content style={{ padding: "40px" }}>
+            <InputForm
+              showWeekly={showWeekly}
+              getWeather={this.getWeather}
+              weatherVisible={weatherVisible}
+            />
             <Weather
               backHandler={this.backHandler}
               weatherVisible={weatherVisible}
@@ -135,11 +159,13 @@ class App extends Component {
             />
           </Content>
         </Layout>
-        <Footer style={{ display: 'flex' }}>
+        <Footer style={{ display: "flex" }}>
           <Back backHandler={this.backHandler} />
-          <span style={{ position: 'absolute', left: '50%' }}>Ant Design ©2016 Created by Ant UED </span>
+          <span style={{ position: "absolute", left: "50%" }}>
+            Ant Design ©2016 Created by Ant UED{" "}
+          </span>
         </Footer>
-      </Layout >
+      </Layout>
     );
   }
 }
