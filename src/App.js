@@ -42,7 +42,6 @@ class App extends Component {
       `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
     );
     const data = await api_call.json();
-    console.log(data);
     if (city && country) {
       this.setState((prevState, props) => {
         return {
@@ -72,7 +71,6 @@ class App extends Component {
       `https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`
     );
     const data = await api_call.json();
-    console.log(data);
     const weekWeather = data.data.slice(0, 7);
     const filteredWeekWeather = weekWeather.map(day => ({
       max: day.app_max_temp,
@@ -90,7 +88,7 @@ class App extends Component {
     }
   };
 
-  getSpecificWeather = async dateString => {
+  getSpecificWeather = async (date, dateString) => {
     const { city, country } = this.state;
     this.setState((prevState, props) => {
       return {
@@ -99,10 +97,10 @@ class App extends Component {
         showWeekly: false
       };
     });
-    const timeStamp = new Date(dateString).getTime() / 1000;
-    console.log(timeStamp);
+    //const timeStamp = new Date(dateString).getTime() / 1000;
+    console.log(dateString);
     const api_call = await fetch(
-      `http://history.openweathermap.org/data/2.5/history/city?q=${city},${country}&appid=${API_KEY}&type=accurate&units=metric&start=${timeStamp}&end=${timeStamp}`
+      `api.weatherbit.io/v2.0/history/daily?city=${city},${country}&start_date=${dateString}&end_date=${dateString}&key=${WEEK_API_KEY}`
     );
     const data = await api_call.json();
     console.log(data);
