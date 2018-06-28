@@ -110,10 +110,10 @@ class App extends Component {
         weatherVisible: true,
         city: prevState.city,
         country: prevState.country,
-        temperature: data.main.temp,
-        humidity: data.main.humidity,
-        windSpeed: data.wind.speed,
-        description: data.weather[0].description
+        temperature: data.data.temp,
+        humidity: data.data.dewpt,
+        windSpeed: data.data.max_wind_spd,
+        description: data.timezone
       };
     });
   };
