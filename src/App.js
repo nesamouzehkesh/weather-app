@@ -19,7 +19,6 @@ class App extends Component {
       temperature: undefined,
       city: undefined,
       country: undefined,
-      date: undefined,
       humidity: undefined,
       description: undefined,
       windSpeed: undefined,
@@ -43,6 +42,7 @@ class App extends Component {
       `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
     );
     const data = await api_call.json();
+    console.log(data);
     if (city && country) {
       this.setState((prevState, props) => {
         return {
@@ -58,6 +58,7 @@ class App extends Component {
       });
     }
   };
+
   getWeeklyWeather = async () => {
     const { city, country } = this.state;
     this.setState((prevState, props) => {
@@ -89,11 +90,34 @@ class App extends Component {
     }
   };
 
-  getSpecificWeather = async e => {
-    e.preventDefault();
-    const date = e.target.value;
-    // const { city, country } = this.state;
-    console.log(date);
+  getSpecificWeather = async dateString => {
+    const { city, country } = this.state;
+    this.setState((prevState, props) => {
+      return {
+        loading: true,
+        weatherVisible: false,
+        showWeekly: false
+      };
+    });
+    const timeStamp = new Date(dateString).getTime() / 1000;
+    console.log(timeStamp);
+    const api_call = await fetch(
+      `http://history.openweathermap.org/data/2.5/history/city?q=${city},${country}&appid=${API_KEY}&type=accurate&units=metric&start=${timeStamp}&end=${timeStamp}`
+    );
+    const data = await api_call.json();
+    console.log(data);
+    this.setState((prevState, props) => {
+      return {
+        loading: false,
+        weatherVisible: true,
+        city: prevState.city,
+        country: prevState.country,
+        temperature: data.main.temp,
+        humidity: data.main.humidity,
+        windSpeed: data.wind.speed,
+        description: data.weather[0].description
+      };
+    });
   };
 
   getStyle = weatherVisible => {

@@ -24,8 +24,8 @@ const Forecasts = ({ getWeeklyWeather, getSpecificWeather }) => (
         <DatePicker
           size="small"
           placeholder="select the date"
-          onChange={() => {
-            getSpecificWeather();
+          onChange={(date, dateString) => {
+            getSpecificWeather(dateString);
           }}
         />
       </span>
