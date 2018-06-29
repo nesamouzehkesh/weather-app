@@ -21,7 +21,7 @@ class App extends Component {
       humidity: undefined,
       description: undefined,
       uv: undefined,
-      error: "Please enter both city and country",
+      selectedDate: undefined,
       loading: false,
       weatherVisible: false,
       showWeekly: false,
@@ -41,7 +41,6 @@ class App extends Component {
       `https://api.weatherbit.io/v2.0/current?city=${city},${country}&key=${API_KEY}`
     );
     const data = await api_call.json();
-    console.log(data);
     if (city && country) {
       this.setState((prevState, props) => {
         return {
@@ -119,9 +118,10 @@ class App extends Component {
         humidity: data.data[0].dewpt,
         windSpeed: data.data[0].max_wind_spd,
         uv: data.data[0].max_uv,
-        description: undefined // because this api url does not provide the description so if we do not set to
+        description: undefined, // because this api url does not provide the description so if we do not set to
         // undefined it will show the current state weather `description` which is not of course valid for this
         // specific date chosen.
+        selectedDate: date
       };
     });
   };
@@ -156,7 +156,7 @@ class App extends Component {
       city,
       country,
       description,
-      error,
+      selectedDate,
       weatherVisible
     } = this.state;
     return (
@@ -192,6 +192,7 @@ class App extends Component {
               city={city}
               country={country}
               description={description}
+              selectedDate={selectedDate}
               getWeeklyWeather={this.getWeeklyWeather}
               getSpecificWeather={this.getSpecificWeather}
               weekWeather={weekWeather}

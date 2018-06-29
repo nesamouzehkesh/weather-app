@@ -19,7 +19,8 @@ const Weather = ({
   humidity,
   description,
   getWeeklyWeather,
-  getSpecificWeather
+  getSpecificWeather,
+  selectedDate
 }) => (
   <div>
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -33,6 +34,7 @@ const Weather = ({
         <Forecasts
           getWeeklyWeather={getWeeklyWeather}
           getSpecificWeather={getSpecificWeather}
+          selectedDate={selectedDate}
         />
       )}
     </div>
