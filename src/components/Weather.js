@@ -14,7 +14,7 @@ const Weather = ({
   weatherVisible,
   city,
   country,
-  windSpeed,
+  uv,
   temperature,
   humidity,
   description,
@@ -25,11 +25,7 @@ const Weather = ({
     <div style={{ display: "flex", flexDirection: "column" }}>
       {(weatherVisible || showWeekly) && <City city={city} country={country} />}
       {weatherVisible && (
-        <WeatherInfo
-          humidity={humidity}
-          description={description}
-          windSpeed={windSpeed}
-        />
+        <WeatherInfo humidity={humidity} description={description} uv={uv} />
       )}
       {loading && <Loading loading={loading} />}
       {showWeekly && !weatherVisible && <Weekly weekWeather={weekWeather} />}

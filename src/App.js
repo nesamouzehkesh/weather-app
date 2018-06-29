@@ -8,8 +8,7 @@ import Weekly from "./components/Weekly";
 import Back from "./components/Back";
 
 const { Sider, Content, Footer, Header } = Layout;
-const API_KEY = "260c12130ccbb1e64787d52fd9671600"; // this will be deleted later, and I will use the second key for all purposes
-const WEEK_API_KEY = "eaefa571f2944356854d9bc874ade000";
+const API_KEY = "eaefa571f2944356854d9bc874ade000";
 
 class App extends Component {
   constructor(...args) {
@@ -21,7 +20,7 @@ class App extends Component {
       country: undefined,
       humidity: undefined,
       description: undefined,
-      windSpeed: undefined,
+      uv: undefined,
       error: "Please enter both city and country",
       loading: false,
       weatherVisible: false,
@@ -39,7 +38,7 @@ class App extends Component {
       return { loading: true };
     });
     const api_call = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
+      `https://api.weatherbit.io/v2.0/current?city=${city},${country}&key=${API_KEY}`
     );
     const data = await api_call.json();
     if (city && country) {
@@ -47,12 +46,12 @@ class App extends Component {
         return {
           loading: false,
           weatherVisible: true,
-          temperature: data.main.temp,
-          humidity: data.main.humidity,
-          windSpeed: data.wind.speed,
-          city: data.name,
-          country: data.sys.country,
-          description: data.weather[0].description
+          temperature: data.data[0].temp,
+          humidity: data.data[0].dewpt,
+          uv: data.data[0].uv,
+          city: data.data[0].city_name,
+          country: data.data[0].country_code,
+          description: data.data[0].weather.description
         };
       });
     }
@@ -69,7 +68,7 @@ class App extends Component {
       };
     });
     const api_call = await fetch(
-      `https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${WEEK_API_KEY}`
+      `https://api.weatherbit.io/v2.0/forecast/daily?city=${city},${country}&key=${API_KEY}`
     );
     const data = await api_call.json();
     const weekWeather = data.data.slice(0, 7);
@@ -103,11 +102,9 @@ class App extends Component {
       .add(1, "days")
       .format("YYYY-MM-DD");
     const start_date = date.format("YYYY-MM-DD");
-    console.log(end_date);
-    console.log(start_date);
 
     const api_call = await fetch(
-      `https://api.weatherbit.io/v2.0/history/daily?city=${city},${country}&start_date=${start_date}&end_date=${end_date}&key=${WEEK_API_KEY}`
+      `https://api.weatherbit.io/v2.0/history/daily?city=${city},${country}&start_date=${start_date}&end_date=${end_date}&key=${API_KEY}`
     );
     const data = await api_call.json();
     console.log(data);
@@ -120,7 +117,10 @@ class App extends Component {
         temperature: data.data[0].temp,
         humidity: data.data[0].dewpt,
         windSpeed: data.data[0].max_wind_spd,
-        description: data.timezone
+        uv: data.data[0].max_uv,
+        description: undefined // because this api url does not provide the description so if we do not set to
+        // undefined it will show the current state weather `description` which is not of course valid for this
+        // specific date chosen.
       };
     });
   };
@@ -149,7 +149,7 @@ class App extends Component {
       loading,
       showWeekly,
       weekWeather,
-      windSpeed,
+      uv,
       temperature,
       humidity,
       city,
@@ -187,7 +187,7 @@ class App extends Component {
               showWeekly={showWeekly}
               temperature={temperature}
               humidity={humidity}
-              windSpeed={windSpeed}
+              uv={uv}
               city={city}
               country={country}
               description={description}

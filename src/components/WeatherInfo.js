@@ -1,6 +1,6 @@
 import React from "react";
 
-const WeatherInfo = ({ humidity, windSpeed, description }) => (
+const WeatherInfo = ({ uv, humidity, windSpeed, description }) => (
   <div style={{ color: "#d59933" }}>
     {humidity && (
       <p>
@@ -8,10 +8,10 @@ const WeatherInfo = ({ humidity, windSpeed, description }) => (
         Humidity:<span> {humidity} </span>
       </p>
     )}
-    {windSpeed && (
+    {uv && (
       <p>
         {" "}
-        Wind Speed:<span> {windSpeed} </span>
+        UV:<span> {uv} </span>
       </p>
     )}
     {description && (
