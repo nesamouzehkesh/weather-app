@@ -1,5 +1,4 @@
-![paw](https://user-images.githubusercontent.com/13462129/40030947-9b0b88b8-5830-11e8-9ba2-6441fec60680.png) 
-# Collection Search!
+# Weather App!
 
 ##### An app written in `react` for giving a report about weather. 
 
