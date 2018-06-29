@@ -10,6 +10,7 @@
 * Storybook
 * Type checking
 * Testing
+* responsiveness 
 
 ## How to run?
 * npm install
