@@ -8,5 +8,4 @@ const Title = () => (
     What the weather?!
   </span>
 );
-
 export default Title;

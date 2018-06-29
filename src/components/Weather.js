@@ -1,4 +1,6 @@
 import React from "react";
+import moment from "moment";
+import PropTypes from "prop-types";
 import { Icon } from "antd";
 import City from "./City";
 import WeatherInfo from "./WeatherInfo";
@@ -40,5 +42,39 @@ const Weather = ({
     </div>
   </div>
 );
+
+Weather.PropTypes = {
+  loading: PropTypes.bool.isRequired,
+  weekWeather: PropTypes.array.isRequired,
+  showWeekly: PropTypes.bool.isRequired,
+  backHandler: PropTypes.func.isRequired,
+  weatherVisible: PropTypes.bool.isRequired,
+  city: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  uv: PropTypes.string.isRequired,
+  temperature: PropTypes.string.isRequired,
+  humidity: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  getWeeklyWeather: PropTypes.func.isRequired,
+  getSpecificWeather: PropTypes.func.isRequired,
+  selectedDate: PropTypes.instanceOf(moment).isRequired
+};
+
+Weather.defaultProps = {
+  loading: false,
+  weekWeather: [],
+  showWeekly: false,
+  backHandler: () => {},
+  weatherVisible: false,
+  city: "Sydney",
+  country: "AU",
+  uv: "",
+  temperature: "",
+  humidity: "",
+  description: "",
+  getWeeklyWeather: () => {},
+  getSpecificWeather: () => {},
+  selectedDate: {}
+};
 
 export default Weather;

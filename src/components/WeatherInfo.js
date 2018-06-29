@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const WeatherInfo = ({ uv, humidity, windSpeed, description }) => (
+const WeatherInfo = ({ uv, humidity, description }) => (
   <div style={{ color: "#d59933" }}>
     {humidity && (
       <p>
@@ -22,5 +23,17 @@ const WeatherInfo = ({ uv, humidity, windSpeed, description }) => (
     )}
   </div>
 );
+
+WeatherInfo.PropTypes = {
+  uv: PropTypes.string,
+  humidity: PropTypes.string,
+  description: PropTypes.string
+};
+
+WeatherInfo.defaultProps = {
+  uv: "",
+  humidity: "",
+  description: ""
+};
 
 export default WeatherInfo;

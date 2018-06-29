@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const City = ({ city, country }) => (
   <div>
@@ -17,5 +18,15 @@ const City = ({ city, country }) => (
       )}
   </div>
 );
+
+City.PropTypes = {
+  city: PropTypes.string,
+  country: PropTypes.string
+};
+
+City.defaultProps = {
+  city: "Sydney",
+  country: "AU"
+};
 
 export default City;

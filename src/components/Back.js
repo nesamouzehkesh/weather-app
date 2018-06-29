@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Icon } from "antd";
 
 const Back = ({ backHandler }) => (
@@ -16,5 +17,13 @@ const Back = ({ backHandler }) => (
     </a>
   </span>
 );
+
+Back.propTypes = {
+  backHandler: PropTypes.func.isRequired
+};
+
+Back.defaultProps = {
+  backHandler: () => {}
+};
 
 export default Back;

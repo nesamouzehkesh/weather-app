@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Weekly = ({ weekWeather }) => {
   function getDayOfWeek(date) {
@@ -53,4 +54,11 @@ const Weekly = ({ weekWeather }) => {
   );
 };
 
+Weekly.PropTypes = {
+  weekWeather: PropTypes.func.isRequired
+};
+
+Weekly.defaultProps = {
+  weekWeather: () => {}
+};
 export default Weekly;
