@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import { Row, Col, Card, Layout, Divider } from "antd";
 import "./App.css";
 import Title from "./components/Title";
@@ -21,7 +22,7 @@ class App extends Component {
       humidity: undefined,
       description: undefined,
       uv: undefined,
-      selectedDate: undefined,
+      selectedDate: moment(),
       loading: false,
       weatherVisible: false,
       showWeekly: false,
@@ -82,7 +83,8 @@ class App extends Component {
       this.setState((prevState, props) => {
         return {
           loading: false,
-          weekWeather: filteredWeekWeather
+          weekWeather: filteredWeekWeather,
+          selectedDate: moment()
         };
       });
     }
@@ -141,7 +143,8 @@ class App extends Component {
       return {
         weatherVisible: false,
         showWeekly: false,
-        weekWeather: []
+        weekWeather: [],
+        selectedDate: moment()
       };
     });
   };
