@@ -64,7 +64,8 @@ class App extends Component {
       return {
         loading: prevState.weekWeather.length === 0 ? true : false,
         weatherVisible: false,
-        showWeekly: true
+        showWeekly: true,
+        temperature: undefined
       };
     });
     const api_call = await fetch(
@@ -88,7 +89,7 @@ class App extends Component {
     }
   };
 
-  getSpecificWeather = async (date, dateString) => {
+  getSpecificWeather = async date => {
     const { city, country } = this.state;
     this.setState((prevState, props) => {
       return {
@@ -97,10 +98,16 @@ class App extends Component {
         showWeekly: false
       };
     });
-    //const timeStamp = new Date(dateString).getTime() / 1000;
-    console.log(dateString);
+    const end_date = date
+      .clone()
+      .add(1, "days")
+      .format("YYYY-MM-DD");
+    const start_date = date.format("YYYY-MM-DD");
+    console.log(end_date);
+    console.log(start_date);
+
     const api_call = await fetch(
-      `api.weatherbit.io/v2.0/history/daily?city=${city},${country}&start_date=${dateString}&end_date=${dateString}&key=${WEEK_API_KEY}`
+      `https://api.weatherbit.io/v2.0/history/daily?city=${city},${country}&start_date=${start_date}&end_date=${end_date}&key=${WEEK_API_KEY}`
     );
     const data = await api_call.json();
     console.log(data);
@@ -110,9 +117,9 @@ class App extends Component {
         weatherVisible: true,
         city: prevState.city,
         country: prevState.country,
-        temperature: data.data.temp,
-        humidity: data.data.dewpt,
-        windSpeed: data.data.max_wind_spd,
+        temperature: data.data[0].temp,
+        humidity: data.data[0].dewpt,
+        windSpeed: data.data[0].max_wind_spd,
         description: data.timezone
       };
     });
@@ -123,7 +130,7 @@ class App extends Component {
       height: "350px",
       fontSize: "80px",
       background:
-        'url("https://user-images.githubusercontent.com/13462129/42004779-af8ac2f8-7ab4-11e8-83f1-5d242521207a.jpg")',
+        'url("https://user-images.githubusercontent.com/13462129/42033425-31998e30-7b20-11e8-9ecc-28d3d762ecb0.jpg")',
       padding: "20px"
     };
   };
@@ -159,7 +166,7 @@ class App extends Component {
         <Layout
           style={{
             background:
-              'url("https://user-images.githubusercontent.com/13462129/42004873-33cec618-7ab5-11e8-850a-da6dac1f6407.jpg")',
+              'url("https://user-images.githubusercontent.com/13462129/42066147-65f0f242-7b82-11e8-9fa8-f3195c9d050f.jpg")',
             marginLeft: "100px",
             marginRight: "100px"
           }}

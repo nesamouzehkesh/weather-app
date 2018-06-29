@@ -22,7 +22,7 @@ const Weekly = ({ weekWeather }) => {
       {weekWeather.map(day => (
         <div
           style={{
-            color: "rgb(168, 173, 63, 0.6)",
+            color: "#d69d33",
             borderRadius: "3px",
             padding: "3px",
             display: "flex",
@@ -43,8 +43,9 @@ const Weekly = ({ weekWeather }) => {
             {Number(day.max.toFixed(1))}
           </p>
           <p>
-            <span style={{ color: "#b1aaa9" }}>precipitation:</span>
-            {day.precipitation}
+            <span style={{ color: "#ef9c90" }}>
+              precipitation: {day.precipitation}
+            </span>
           </p>
         </div>
       ))}

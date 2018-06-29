@@ -1,7 +1,7 @@
 import React from "react";
 
 const WeatherInfo = ({ humidity, windSpeed, description }) => (
-  <div style={{ color: "#676767" }}>
+  <div style={{ color: "#d59933" }}>
     {humidity && (
       <p>
         {" "}

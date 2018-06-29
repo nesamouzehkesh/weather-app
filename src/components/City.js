@@ -6,7 +6,7 @@ const City = ({ city, country }) => (
       country && (
         <span
           style={{
-            color: "#676767",
+            color: "#f9cd54",
             fontWeight: "bold",
             fontFamily: "junction-light",
             fontSize: "40px"
