@@ -41,6 +41,7 @@ class App extends Component {
       `https://api.weatherbit.io/v2.0/current?city=${city},${country}&key=${API_KEY}`
     );
     const data = await api_call.json();
+    console.log(data);
     if (city && country) {
       this.setState((prevState, props) => {
         return {

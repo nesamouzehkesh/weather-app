@@ -8,7 +8,7 @@ const WeatherInfo = ({ uv, humidity, windSpeed, description }) => (
         Humidity:<span> {humidity} </span>
       </p>
     )}
-    {uv && (
+    {(uv || uv == 0) && (
       <p>
         {" "}
         UV:<span> {uv} </span>
