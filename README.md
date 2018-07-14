@@ -17,8 +17,7 @@
 * localhost:3000
 
 ## Simple demo
-![weather](https://user-images.githubusercontent.com/13462129/42719106-0e30f0c4-8754-11e8-9420-bfe0f83d03bd.gif)
-
+![weather](https://user-images.githubusercontent.com/13462129/42719208-8633a430-8755-11e8-8bf2-f89593724d6c.gif)
 
 This is a work in progress...
 
